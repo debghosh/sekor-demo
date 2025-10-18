@@ -77,7 +77,7 @@ const sampleArticles = [
     summary: 'The fascinating lives and tales of daily commuters on Kolkata\'s expanding metro network.',
     author: 'Rahul Bose',
     authorId: 'author3',
-    image: 'https://images.unsplash.com/photo-1531889947280-b31a4e144b4e?w=800',
+    image: 'metro.png',
     category: 'Metro',
     publishDate: '2024-10-13',
     content: 'Lorem ipsum dolor sit amet...',
