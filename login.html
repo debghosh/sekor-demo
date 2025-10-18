@@ -32,7 +32,7 @@
       background: white;
       border-radius: 12px;
       padding: 40px;
-      max-width: 400px;
+      max-width: 440px;
       width: 100%;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
@@ -64,10 +64,37 @@
       border-radius: 6px;
       margin-bottom: 20px;
       border-left: 4px solid var(--primary);
+      font-size: 0.9rem;
     }
 
     .demo-note strong {
       color: var(--primary);
+    }
+
+    .demo-accounts {
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      border-left: 4px solid #2196F3;
+    }
+
+    .demo-accounts h4 {
+      color: #1976D2;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .demo-accounts ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 8px 0;
+    }
+
+    .demo-accounts li {
+      padding: 4px 0;
+      color: #555;
     }
 
     .form-group {
@@ -88,11 +115,17 @@
       border-radius: 6px;
       font-size: 1rem;
       transition: border-color 0.2s;
+      background: white;
     }
 
     .form-input:focus {
       outline: none;
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+    }
+
+    select.form-input {
+      cursor: pointer;
     }
 
     .btn-login {
@@ -109,7 +142,11 @@
     }
 
     .btn-login:hover {
-      background: #c92a2a;
+      background: #b01030;
+    }
+
+    .btn-login:active {
+      transform: translateY(1px);
     }
 
     .divider {
@@ -151,6 +188,20 @@
     .back-link a:hover {
       text-decoration: underline;
     }
+
+    .role-description {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 6px;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .role-description.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -158,10 +209,19 @@
     <div class="login-card">
       <div class="login-logo">শেকড়</div>
       <h1 class="login-title">Welcome Back</h1>
-      <p class="login-subtitle">Login to access your personalized feed</p>
+      <p class="login-subtitle">Login to access your portal</p>
 
       <div class="demo-note">
-        <strong>Demo Mode:</strong> Click "Login" to access the full authenticated experience.
+        <strong>Demo Mode:</strong> Select a role and click "Login" to test different portals.
+      </div>
+
+      <div class="demo-accounts">
+        <h4>📝 Quick Test Accounts:</h4>
+        <ul>
+          <li><strong>Reader:</strong> Any email + Reader role</li>
+          <li><strong>Author:</strong> anindita@example.com</li>
+          <li><strong>Admin:</strong> admin@kcc.com</li>
+        </ul>
       </div>
 
       <form id="loginForm">
@@ -173,6 +233,7 @@
             class="form-input" 
             placeholder="your@email.com"
             value="demo@kolkatachronicle.com"
+            required
           >
         </div>
 
@@ -184,17 +245,25 @@
             class="form-input" 
             placeholder="••••••••"
             value="demo123"
+            required
           >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="role">Login As</label>
+          <select id="role" class="form-input" required>
+            <option value="reader">Reader - Browse and read articles</option>
+            <option value="author">Author / Creator - Write and manage articles</option>
+            <option value="admin">Administrator - Manage platform and approve content</option>
+          </select>
+          
+          <div id="roleDescription" class="role-description">
+            Select a role to see what you can do
+          </div>
         </div>
 
         <button type="submit" class="btn-login">Login</button>
       </form>
-
-      <div class="divider">OR</div>
-
-      <button onclick="handleSubscribe()" class="btn-login" style="background: #667eea;">
-        Subscribe Now - ₹99/month
-      </button>
 
       <div class="back-link">
         <a href="index.html">← Back to Home</a>
@@ -202,34 +271,34 @@
     </div>
   </div>
 
+  <script src="data.js"></script>
+  <script src="login.js"></script>
+
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const userData = {
-        name: 'Demo User',
-        email: document.getElementById('email').value,
-        subscribed: true
+    // Show role descriptions on change
+    document.getElementById('role').addEventListener('change', function() {
+      const roleDesc = document.getElementById('roleDescription');
+      const descriptions = {
+        reader: '📖 Access personalized feed, follow authors, save articles',
+        author: '✍️ Create articles, manage drafts, submit for review, track performance',
+        admin: '👨‍💼 Review submissions, manage users, view analytics, publish content'
       };
       
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-      
-      window.location.href = 'index.html';
+      roleDesc.textContent = descriptions[this.value];
+      roleDesc.classList.add('active');
     });
 
-    function handleSubscribe() {
-      const userData = {
-        name: 'New Subscriber',
-        email: 'subscriber@kolkatachronicle.com',
-        subscribed: true
-      };
+    // Quick fill buttons for testing
+    document.getElementById('role').addEventListener('change', function() {
+      const role = this.value;
+      const emailInput = document.getElementById('email');
       
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-      
-      window.location.href = 'index.html';
-    }
+      if (role === 'author') {
+        emailInput.value = 'anindita@example.com';
+      } else if (role === 'admin') {
+        emailInput.value = 'admin@kcc.com';
+      }
+    });
   </script>
 </body>
 </html>

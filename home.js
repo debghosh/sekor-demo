@@ -6,7 +6,8 @@ const followedAuthors = new Set();
 document.addEventListener('DOMContentLoaded', function() {
   checkAuth();
   loadFollowedAuthors();
-  updateHeader();
+  //updateHeader();
+  updateHeaderForLoggedInUser();  // instead of updateHeader()
   loadStories();
   setupEventListeners();
   setupTabNavigation();
@@ -408,9 +409,8 @@ function toggleSave(btn) {
 }// Main JavaScript for Homepage
 
 // Check if user is logged in
-let currentUser = null;
+
 let isAuthenticated = false;
-const followedAuthors = new Set();
 
 // Load articles on page load
 document.addEventListener('DOMContentLoaded', function() {
