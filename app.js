@@ -53,7 +53,7 @@ const sampleArticles = [
     summary: 'A photo essay documenting the vanishing tradition of Kolkata\'s hand-pulled rickshaws and the men who still pull them.',
     author: 'Arijit Mukherjee',
     authorId: 'author1',
-    image: 'https://images.unsplash.com/photo-1569493644425-d8a2e0e53ad0?w=800',
+    image: 'rickshaw.png',
     category: 'Heritage',
     publishDate: '2024-10-15',
     content: 'Lorem ipsum dolor sit amet...',
