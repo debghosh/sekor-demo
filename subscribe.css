@@ -1,0 +1,511 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #DC143C;
+  --text-dark: #242424;
+  --text-medium: #6B6B6B;
+  --text-light: #8B8B8B;
+  --border: #E6E6E6;
+  --bg-white: #FFFFFF;
+  --bg-light: #FAFAFA;
+  --success: #27ae60;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text-dark);
+  background: var(--bg-light);
+  min-height: 100vh;
+}
+
+.subscribe-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.subscribe-header {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5em;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  margin: 0;
+}
+
+.tagline {
+  font-size: 1em;
+  color: var(--text-medium);
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.btn-header {
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+
+.btn-login {
+  background: white;
+  color: var(--text-dark);
+  border-color: var(--border);
+}
+
+.btn-login:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.subscribe-body {
+  padding: 60px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3em;
+  font-weight: 800;
+  margin-bottom: 15px;
+  text-align: center;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.2em;
+  color: var(--text-medium);
+  margin-bottom: 50px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.subscription-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 60px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.subscription-card {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.subscription-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.subscription-card.selected {
+  border-color: var(--primary);
+  background: rgba(220, 20, 60, 0.02);
+  box-shadow: 0 8px 30px rgba(220, 20, 60, 0.15);
+}
+
+.subscription-card.selected::before {
+  content: '✓';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.featured-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: white;
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 0.75em;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.subscription-type {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8em;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--text-dark);
+}
+
+.subscription-price {
+  font-size: 3em;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 25px;
+  font-family: 'Playfair Display', serif;
+}
+
+.subscription-price span {
+  font-size: 0.4em;
+  color: var(--text-medium);
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+}
+
+.subscription-features {
+  list-style: none;
+  margin: 30px 0;
+  flex-grow: 1;
+}
+
+.subscription-features li {
+  padding: 12px 0;
+  padding-left: 35px;
+  position: relative;
+  color: var(--text-dark);
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.subscription-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 700;
+  font-size: 1.2em;
+}
+
+.btn-plan {
+  width: 100%;
+  padding: 16px;
+  background: white;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1.05em;
+  margin-top: auto;
+}
+
+.btn-plan:hover {
+  background: var(--bg-light);
+  transform: translateY(-2px);
+}
+
+.btn-plan-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-plan-primary:hover {
+  background: #B01030;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 20, 60, 0.3);
+}
+
+/* Form Styling */
+.subscription-form {
+  max-width: 700px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  padding: 50px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+  margin-bottom: 30px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-dark);
+  font-size: 1em;
+}
+
+.form-input {
+  width: 100%;
+  padding: 16px 18px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 1em;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+  color: var(--text-dark);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(220, 20, 60, 0.1);
+}
+
+.preference-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.checkbox-label:hover {
+  border-color: var(--primary);
+  background: rgba(220, 20, 60, 0.02);
+}
+
+.checkbox-label input[type="checkbox"]:checked + span {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+.frequency-select {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.frequency-option {
+  padding: 18px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+  background: white;
+  font-size: 1em;
+}
+
+.frequency-option:hover {
+  border-color: var(--primary);
+  background: rgba(220, 20, 60, 0.02);
+}
+
+.frequency-option.selected {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+.btn-subscribe {
+  width: 100%;
+  padding: 20px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 40px;
+}
+
+.btn-subscribe:hover {
+  background: #B01030;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(220, 20, 60, 0.4);
+}
+
+.btn-subscribe:disabled {
+  background: var(--text-medium);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.privacy-note {
+  text-align: center;
+  color: var(--text-medium);
+  font-size: 0.9em;
+  margin-top: 25px;
+  line-height: 1.8;
+}
+
+.privacy-note a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.privacy-note a:hover {
+  text-decoration: underline;
+}
+
+.back-link {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.back-link a {
+  color: var(--text-medium);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95em;
+}
+
+.back-link a:hover {
+  color: var(--primary);
+}
+
+/* Success Message */
+.success-message {
+  display: none;
+  text-align: center;
+  padding: 80px 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.success-message.active {
+  display: block;
+}
+
+.success-icon {
+  font-size: 5em;
+  margin-bottom: 30px;
+  animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.success-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5em;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--success);
+}
+
+.success-text {
+  color: var(--text-medium);
+  font-size: 1.15em;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .subscription-options {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .subscribe-body {
+    padding: 40px 20px;
+  }
+
+  .section-title {
+    font-size: 2.2em;
+  }
+
+  .subscription-form {
+    padding: 30px 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .subscribe-header {
+    padding: 20px;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .logo {
+    font-size: 2em;
+  }
+
+  .preference-options {
+    grid-template-columns: 1fr;
+  }
+
+  .frequency-select {
+    grid-template-columns: 1fr;
+  }
+
+  .subscription-card {
+    padding: 30px 25px;
+  }
+
+  .subscription-type {
+    font-size: 1.5em;
+  }
+
+  .subscription-price {
+    font-size: 2.5em;
+  }
+}

@@ -149,6 +149,28 @@
       transform: translateY(1px);
     }
 
+    .btn-subscribe {
+      width: 100%;
+      padding: 14px;
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-subscribe:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-subscribe:active {
+      transform: translateY(1px);
+    }
+
     .divider {
       text-align: center;
       margin: 30px 0;
@@ -262,7 +284,10 @@
           </div>
         </div>
 
-        <button type="submit" class="btn-login">Login</button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <button type="submit" class="btn-login">Login</button>
+          <button type="button" class="btn-subscribe" onclick="window.location.href='subscribe.html'">Subscribe</button>
+        </div>
       </form>
 
       <div class="back-link">
