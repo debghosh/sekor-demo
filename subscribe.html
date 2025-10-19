@@ -419,14 +419,14 @@
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Newsletter Frequency</label>
-            <div class="frequency-options">
-              <button type="button" class="frequency-btn selected" data-frequency="daily" onclick="selectFrequency('daily')">Daily</button>
-              <button type="button" class="frequency-btn" data-frequency="weekly" onclick="selectFrequency('weekly')">Weekly</button>
-              <button type="button" class="frequency-btn" data-frequency="monthly" onclick="selectFrequency('monthly')">Monthly</button>
-            </div>
+        <div class="form-group">
+          <label class="form-label">Newsletter Frequency</label>
+          <div class="frequency-options">
+            <button type="button" class="frequency-btn selected" data-frequency="daily" onclick="selectFrequency(this, 'daily')">Daily</button>
+            <button type="button" class="frequency-btn" data-frequency="weekly" onclick="selectFrequency(this, 'weekly')">Weekly</button>
+            <button type="button" class="frequency-btn" data-frequency="monthly" onclick="selectFrequency(this, 'monthly')">Monthly</button>
           </div>
+        </div>
 
           <button type="submit" class="btn-subscribe">Subscribe Now</button>
 

@@ -26,14 +26,16 @@ function selectPlan(plan) {
 }
 
 // Frequency Selection
-function selectFrequency(frequency) {
+function selectFrequency(button, frequency) {
   selectedFrequency = frequency;
   
-  // Update UI
-  document.querySelectorAll('.frequency-option').forEach(opt => {
-    opt.classList.remove('selected');
+  // Remove selected class from all buttons
+  document.querySelectorAll('.frequency-btn').forEach(btn => {
+    btn.classList.remove('selected');
   });
-  document.querySelector(`[data-frequency="${frequency}"]`).classList.add('selected');
+  
+  // Add selected class to clicked button
+  button.classList.add('selected');
 }
 
 // Handle Form Submission
