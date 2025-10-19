@@ -1,7 +1,8 @@
-// Creator Portal JavaScript
+// Creator Portal JavaScript with Quill.js
 
 let currentUser = null;
 let editingArticleId = null;
+let quill = null; // Quill editor instance
 
 document.addEventListener('DOMContentLoaded', function() {
   checkAuth();
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadDashboard();
   setupNavigation();
   setupArticleForm();
+  initializeQuillEditor();
 });
 
 function checkAuth() {
@@ -30,6 +32,69 @@ function loadUserInfo() {
     userRoleEl.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
     userAvatarEl.textContent = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase();
   }
+}
+
+function initializeQuillEditor() {
+  // Initialize Quill with custom toolbar
+  quill = new Quill('#editor-container', {
+    theme: 'snow',
+    modules: {
+      toolbar: [
+        [{ 'header': [2, 3, false] }],
+        ['bold', 'italic', 'underline'],
+        ['link', 'blockquote', 'code-block'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        ['clean']
+      ]
+    },
+    placeholder: 'Start writing your article here...'
+  });
+
+  // Update word count on text change
+  quill.on('text-change', function() {
+    updateWordCount();
+  });
+}
+
+function updateWordCount() {
+  const text = quill.getText().trim();
+  const words = text.length > 0 ? text.split(/\s+/).length : 0;
+  const chars = text.length;
+  
+  document.getElementById('wordCount').textContent = `${words} words`;
+  document.getElementById('charCount').textContent = `${chars} characters`;
+}
+
+function insertImage() {
+  const imageUrl = document.getElementById('imageUrlInput').value.trim();
+  
+  if (!imageUrl) {
+    alert('Please enter an image URL');
+    return;
+  }
+  
+  // Validate URL
+  try {
+    new URL(imageUrl);
+  } catch (e) {
+    alert('Please enter a valid URL');
+    return;
+  }
+  
+  // Get current cursor position
+  const range = quill.getSelection(true);
+  
+  // Insert image at cursor position
+  quill.insertEmbed(range.index, 'image', imageUrl);
+  
+  // Move cursor after image
+  quill.setSelection(range.index + 1);
+  
+  // Clear input
+  document.getElementById('imageUrlInput').value = '';
+  
+  // Focus back on editor
+  quill.focus();
 }
 
 function loadDashboard() {
@@ -75,33 +140,17 @@ function loadRecentArticles() {
   const myArticles = DATA_STORE.getArticlesByAuthor(currentUser.id).slice(0, 3);
   
   if (myArticles.length === 0) {
-    container.innerHTML = '<p style="color: var(--text-medium); text-align: center; padding: 40px;">No articles yet. Create your first article!</p>';
+    container.innerHTML = '<p style="color: var(--text-medium); text-align: center; padding: 40px;">No articles yet. Click "New Article" to get started!</p>';
     return;
   }
   
   container.innerHTML = myArticles.map(article => `
-    <div class="article-list-item">
-      <img src="${article.image}" alt="" class="article-thumbnail">
-      <div class="article-content">
-        <div class="article-badges">
-          <span class="badge badge-${article.status}">${article.status}</span>
-          <span class="category-tag">${article.category}</span>
-        </div>
-        <h3 class="article-list-title">${article.title}</h3>
-        <div class="article-meta-info">
-          <span>👁️ ${article.views} views</span>
-          <span>💬 ${article.engagement} comments</span>
-          ${article.publishDate ? `<span>📅 ${article.publishDate}</span>` : ''}
-        </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px;">
+      <div style="flex: 1;">
+        <div style="font-weight: 600; font-size: 0.95em; margin-bottom: 4px;">${article.title}</div>
+        <div style="font-size: 0.8em; color: var(--text-medium);">${article.category} • ${article.views} views</div>
       </div>
-      <div class="article-actions">
-        <button class="btn-icon" onclick="editArticle(${article.id})" title="Edit">
-          ✏️
-        </button>
-        <button class="btn-icon" onclick="viewArticle(${article.id})" title="View">
-          👁️
-        </button>
-      </div>
+      <span class="badge badge-${article.status}">${article.status}</span>
     </div>
   `).join('');
 }
@@ -111,23 +160,19 @@ function loadArticlesList() {
   const myArticles = DATA_STORE.getArticlesByAuthor(currentUser.id);
   
   if (myArticles.length === 0) {
-    container.innerHTML = '<p style="color: var(--text-medium); text-align: center; padding: 40px;">No articles yet. Create your first article!</p>';
+    container.innerHTML = '<p style="color: var(--text-medium); text-align: center; padding: 40px;">No articles yet.</p>';
     return;
   }
   
   container.innerHTML = myArticles.map(article => `
     <div class="article-list-item">
-      <img src="${article.image}" alt="" class="article-thumbnail">
-      <div class="article-content">
-        <div class="article-badges">
-          <span class="badge badge-${article.status}">${article.status.toUpperCase()}</span>
-          <span class="category-tag">${article.category}</span>
-        </div>
+      <div class="article-list-content">
         <h3 class="article-list-title">${article.title}</h3>
         <p class="article-list-summary">${article.summary}</p>
         <div class="article-meta-info">
+          <span>📁 ${article.category}</span>
           <span>👁️ ${article.views} views</span>
-          <span>💬 ${article.engagement} comments</span>
+          <span class="badge badge-${article.status}">${article.status}</span>
           ${article.publishDate ? `<span>📅 ${article.publishDate}</span>` : '<span>📝 Draft</span>'}
         </div>
       </div>
@@ -177,6 +222,14 @@ function showView(viewName) {
       loadArticlesList();
     } else if (viewName === 'dashboard') {
       loadDashboard();
+    } else if (viewName === 'new') {
+      // Reset form when opening new article view
+      if (!editingArticleId) {
+        document.getElementById('articleForm').reset();
+        quill.setContents([]);
+        updateWordCount();
+        document.querySelector('#newView .card-title').textContent = 'Create New Article';
+      }
     }
   }
   
@@ -201,12 +254,22 @@ function submitArticle(status) {
   const form = document.getElementById('articleForm');
   const formData = new FormData(form);
   
+  // Get HTML content from Quill editor
+  const htmlContent = quill.root.innerHTML;
+  
+  // Validate content
+  const textContent = quill.getText().trim();
+  if (textContent.length < 100) {
+    alert('Article content must be at least 100 characters. Current: ' + textContent.length);
+    return;
+  }
+  
   const articleData = {
     title: formData.get('title'),
     category: formData.get('category'),
     image: formData.get('image'),
     summary: formData.get('summary'),
-    content: formData.get('content'),
+    content: htmlContent, // Rich HTML content from Quill
     author: currentUser.name,
     authorId: currentUser.id,
     status: status
@@ -222,6 +285,8 @@ function submitArticle(status) {
   }
   
   form.reset();
+  quill.setContents([]);
+  updateWordCount();
   showView('articles');
 }
 
@@ -240,7 +305,18 @@ function editArticle(articleId) {
   document.getElementById('articleCategory').value = article.category;
   document.getElementById('articleImage').value = article.image;
   document.getElementById('articleSummary').value = article.summary;
-  document.getElementById('articleContent').value = article.content;
+  
+  // Load content into Quill editor
+  // Check if content is HTML or plain text
+  if (article.content.includes('<')) {
+    // HTML content - use clipboard API for proper formatting
+    quill.clipboard.dangerouslyPasteHTML(article.content);
+  } else {
+    // Plain text - just set it
+    quill.setText(article.content);
+  }
+  
+  updateWordCount();
   
   // Update form title
   document.querySelector('#newView .card-title').textContent = 'Edit Article';

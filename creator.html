@@ -5,6 +5,197 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Creator Portal - The Kolkata Chronicle</title>
   <link rel="stylesheet" href="styles.css">
+  
+  <!-- Quill WYSIWYG Editor -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  
+  <style>
+    /* Quill Editor Custom Styles */
+    #editor-container {
+      height: 500px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1em;
+    }
+    
+    #editor-container:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+    }
+    
+    .ql-toolbar.ql-snow {
+      background: var(--bg-light);
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border: 2px solid var(--border);
+      border-bottom: none;
+      padding: 12px;
+    }
+    
+    .ql-container.ql-snow {
+      border: 2px solid var(--border);
+      border-top: none;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1em;
+    }
+    
+    #editor-container:focus-within .ql-toolbar.ql-snow,
+    #editor-container:focus-within .ql-container.ql-snow {
+      border-color: var(--primary);
+    }
+    
+    .ql-editor {
+      min-height: 450px;
+      padding: 20px;
+      line-height: 1.8;
+    }
+    
+    .ql-editor h2 {
+      font-size: 1.8em;
+      margin: 1em 0 0.5em;
+      font-weight: 700;
+    }
+    
+    .ql-editor h3 {
+      font-size: 1.4em;
+      margin: 1em 0 0.5em;
+      font-weight: 600;
+    }
+    
+    .ql-editor p {
+      margin-bottom: 1em;
+    }
+    
+    .ql-editor blockquote {
+      border-left: 4px solid var(--primary);
+      padding-left: 16px;
+      margin: 1em 0;
+      font-style: italic;
+      color: var(--text-medium);
+    }
+    
+    .ql-editor pre {
+      background: #f5f5f5;
+      border-radius: 4px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    
+    .ql-editor code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .ql-editor img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1em 0;
+    }
+    
+    .ql-snow .ql-stroke {
+      stroke: var(--text-dark);
+    }
+    
+    .ql-snow .ql-fill {
+      fill: var(--text-dark);
+    }
+    
+    .ql-snow .ql-picker-label {
+      color: var(--text-dark);
+    }
+    
+    .ql-snow .ql-picker-options {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    
+    .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+      border-color: var(--primary);
+    }
+    
+    .ql-snow.ql-toolbar button:hover,
+    .ql-snow .ql-toolbar button:hover,
+    .ql-snow.ql-toolbar button.ql-active,
+    .ql-snow .ql-toolbar button.ql-active {
+      color: var(--primary);
+    }
+    
+    .ql-snow.ql-toolbar button:hover .ql-stroke,
+    .ql-snow .ql-toolbar button:hover .ql-stroke,
+    .ql-snow.ql-toolbar button.ql-active .ql-stroke,
+    .ql-snow .ql-toolbar button.ql-active .ql-stroke {
+      stroke: var(--primary);
+    }
+    
+    .ql-snow.ql-toolbar button:hover .ql-fill,
+    .ql-snow .ql-toolbar button:hover .ql-fill,
+    .ql-snow.ql-toolbar button.ql-active .ql-fill,
+    .ql-snow .ql-toolbar button.ql-active .ql-fill {
+      fill: var(--primary);
+    }
+    
+    /* Image Upload Helper */
+    .image-upload-section {
+      margin-bottom: 24px;
+      padding: 20px;
+      background: var(--bg-light);
+      border-radius: 8px;
+      border: 2px dashed var(--border);
+    }
+    
+    .image-upload-section label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+    
+    .image-upload-section p {
+      font-size: 0.85em;
+      color: var(--text-medium);
+      margin-bottom: 12px;
+    }
+    
+    .btn-insert-image {
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-insert-image:hover {
+      background: #B01030;
+    }
+    
+    /* Word Count */
+    .editor-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      padding: 12px;
+      background: var(--bg-light);
+      border-radius: 6px;
+      font-size: 0.9em;
+      color: var(--text-medium);
+    }
+    
+    .word-count {
+      font-weight: 600;
+    }
+  </style>
 </head>
 <body>
   <header class="portal-header">
@@ -115,7 +306,7 @@
             </div>
 
             <div class="form-group">
-              <label for="articleImage">Image URL *</label>
+              <label for="articleImage">Featured Image URL *</label>
               <input 
                 type="url" 
                 id="articleImage" 
@@ -123,6 +314,9 @@
                 placeholder="https://example.com/image.jpg"
                 required
               >
+              <small style="color: var(--text-medium); font-size: 0.85em; display: block; margin-top: 6px;">
+                💡 Tip: Use Unsplash.com for free high-quality images
+              </small>
             </div>
 
             <div class="form-group">
@@ -138,24 +332,46 @@
 
             <div class="form-group">
               <label for="articleContent">Content *</label>
-              <textarea 
-                id="articleContent" 
-                name="content" 
-                rows="15"
-                placeholder="Write your article here..."
-                required
-              ></textarea>
+              
+              <!-- Image Helper -->
+              <div class="image-upload-section">
+                <label>📷 Insert Image in Article</label>
+                <p>Enter image URL and click "Insert Image" to add it to your article content.</p>
+                <div style="display: flex; gap: 10px;">
+                  <input 
+                    type="url" 
+                    id="imageUrlInput" 
+                    placeholder="https://example.com/image.jpg"
+                    style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 6px;"
+                  >
+                  <button type="button" class="btn-insert-image" onclick="insertImage()">
+                    Insert Image
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Quill Editor Container -->
+              <div id="editor-container"></div>
+              
+              <!-- Hidden input to store HTML content -->
+              <input type="hidden" id="articleContent" name="content">
+              
+              <!-- Editor Stats -->
+              <div class="editor-stats">
+                <span class="word-count" id="wordCount">0 words</span>
+                <span id="charCount">0 characters</span>
+              </div>
             </div>
 
             <div class="form-actions">
               <button type="button" class="btn-secondary" onclick="saveAsDraft()">
-                Save as Draft
+                💾 Save as Draft
               </button>
               <button type="submit" class="btn-primary">
-                Submit for Review
+                📤 Submit for Review
               </button>
               <button type="button" class="btn-secondary" onclick="showView('articles')">
-                Cancel
+                ❌ Cancel
               </button>
             </div>
           </form>

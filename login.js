@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         id: Date.now(),
         name: email.split('@')[0],
         email: email,
-        role: 'reader',
+        role: role,
         avatar: 'https://i.pravatar.cc/150?img=8'
       };
     }
